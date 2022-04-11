@@ -20,7 +20,7 @@ class Parser():
 
         #data parameters
         parser.add_argument('--data_root', type=str, default= '/kaggle/input/cvusa-dataset/cvusa-localization/')
-        parser.add_argument('--polar_data_root', type=str, default= '/kaggle/input/dsm-dynamic-similarity-matching')
+        parser.add_argument('--polar_data_root', type=str, default= '/kaggle/input/dsm-dynamic-similarity-matching/Data/CVUSA')
         parser.add_argument('--train_csv', type=str, default='train-19zl.csv')
         parser.add_argument('--val_csv', type=str, default='val-19zl.csv')
         parser.add_argument('--polar', default=True, action='store_true')

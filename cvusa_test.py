@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
     # Initialize network wrapper
     if opt.resume:
-        opt.rgan_checkpoint = os.path.join('./placeholder_checkpoint_path', 'rgan_best_ckpt.pth')
+        opt.rgan_checkpoint = os.path.join('/kaggle/working/models/coming_dte', 'rgan_best_ckpt.pth')
 
     rgan_wrapper = rgan_wrapper.RGANWrapper(opt, log_file, generator, discriminator, retrieval)
     # Configure data loader

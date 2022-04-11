@@ -30,7 +30,7 @@ class Parser():
 
         #train parameters
         parser.add_argument("--n_epochs", type=int, default=200, help="number of epochs of combined training")
-        parser.add_argument("--batch_size", type=int, default=32, help="size of the batches")
+        parser.add_argument("--batch_size", type=int, default=8, help="size of the batches")
         parser.add_argument("--lr_g", type=float, default=0.0001, help="adam: learning rate")
         parser.add_argument("--lr_d", type=float, default=0.0001, help="adam: learning rate")
         parser.add_argument("--lr_r", type=float, default=0.0001, help="adam: learning rate")

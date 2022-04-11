@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
     rgan_wrapper = rgan_wrapper.RGANWrapper(opt, log_file, generator, discriminator, retrieval)
     # Configure data loader
-    val_dataset = CVUSA(root=opt.data_root, csv_file=opt.val_csv, use_polar=opt.polar, name=opt.name,
+    val_dataset = CVUSA(root=opt.data_root, polar_root=opt.polar_data_root, csv_file=opt.val_csv, use_polar=opt.polar, name=opt.name,
                         transform_op=ToTensor())
     val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=opt.batch_size, shuffle=False, num_workers=0)
 

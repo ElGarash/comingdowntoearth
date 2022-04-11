@@ -12,7 +12,7 @@ class Parser():
         parser.add_argument('--name', type=str, default='', help=' ')
         parser.add_argument('--seed', type=int, default=10)
         parser.add_argument('--phase', type=str, default='train', help='')
-        parser.add_argument('--gpu_ids', type=str, default='0, 1', help='gpu ids: e.g. 0  0,1')
+        parser.add_argument('--gpu_ids', type=str, default='0', help='gpu ids: e.g. 0  0,1')
 
         parser.add_argument('--isTrain', default=True, action='store_true')
         parser.add_argument('--resume', default=True, action='store_true')

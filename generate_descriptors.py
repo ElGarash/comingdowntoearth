@@ -7,6 +7,7 @@ from argparse import Namespace
 from helper import parser
 import os
 from matplotlib import pyplot
+import pickle
 
 
 if __name__ == '__main__':
@@ -60,6 +61,16 @@ if __name__ == '__main__':
     street_vec = torch.cat(street_batches_v, dim=0)
     dists = 2 - 2 * torch.matmul(fake_street_vec, street_vec.permute(1, 0))
 
+    # store discriptores and distance metrices
+    with open('dist_array_total.pkl', 'wb') as f:
+        pickle.dump(dists, f)
+    
+    with open('ground_descriptors.pkl', 'wb') as f:
+        pickle.dump(street_vec.permute(1, 0).T, f)
+    
+    with open('satellite_descriptors.pkl', 'wb') as f:
+        pickle.dump(fake_street_vec, f)
+    
     tp1 = rgan_wrapper.mutual_topk_acc(dists, topk=1)
     tp5 = rgan_wrapper.mutual_topk_acc(dists, topk=5)
     tp10 = rgan_wrapper.mutual_topk_acc(dists, topk=10)

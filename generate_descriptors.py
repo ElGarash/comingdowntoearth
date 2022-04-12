@@ -73,7 +73,7 @@ if __name__ == '__main__':
         pickle.dump(dists, f)
     
     with open(f'{DESCRIPTORS_DIRECTORY}/ground_descriptors.pkl', 'wb') as f:
-        pickle.dump(street_vec.permute(1, 0).T, f)
+        pickle.dump(street_vec, f)
     
     with open(f'{DESCRIPTORS_DIRECTORY}/satellite_descriptors.pkl', 'wb') as f:
         pickle.dump(fake_street_vec, f)

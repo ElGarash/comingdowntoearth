@@ -65,7 +65,10 @@ if __name__ == '__main__':
     street_vec = torch.cat(street_batches_v, dim=0)
     dists = 2 - 2 * torch.matmul(fake_street_vec, street_vec.permute(1, 0))
 
-    # store discriptores and distance metrices
+    if not os.path.exists(DESCRIPTORS_DIRECTORY):
+        os.makedirs(DESCRIPTORS_DIRECTORY, exist_ok=True)
+
+    # store descriptors and distance matrices
     with open(f'{DESCRIPTORS_DIRECTORY}/dist_array_total.pkl', 'wb') as f:
         pickle.dump(dists, f)
     

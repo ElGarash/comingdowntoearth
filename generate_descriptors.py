@@ -6,12 +6,15 @@ from utils.setup_helper import *
 from argparse import Namespace
 from helper import parser
 import os
-from matplotlib import pyplot
 import pickle
 
 DESCRIPTORS_DIRECTORY = "/kaggle/working/descriptors/coming_dte"
 
 if __name__ == '__main__':
+    if os.path.exists(f"{DESCRIPTORS_DIRECTORY}/satellite_descriptors.pkl"):
+        print("Satellite descriptor already exists on the file system.")
+        exit(0)
+
     parse = parser.Parser()
     opt, log_file = parse.parse()
     opt.is_Train = True

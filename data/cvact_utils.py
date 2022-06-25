@@ -21,11 +21,9 @@ class CVACT(data.Dataset):
 
         for i in range(0, len(self.all_data['panoIds'])):
             grd_id_ori = self.root + '_' + self.all_data['panoIds'][i] + '/' + self.all_data['panoIds'][i] + '_zoom_2.jpg'
-            grd_id_align = self.root + 'streetview_polish/' + self.all_data['panoIds'][i] + '_grdView.jpg'
-            grd_id_ori_sem = self.root + '_' + self.all_data['panoIds'][i] + '/' + self.all_data['panoIds'][
-                i] + '_zoom_2_sem.jpg'
-            grd_id_align_sem = self.root + '_' + self.all_data['panoIds'][i] + '/' + self.all_data['panoIds'][
-                i] + '_zoom_2_aligned_sem.jpg'
+            grd_id_align = self.polar_root + 'streetview_polish/' + self.all_data['panoIds'][i] + '_grdView.jpg'
+            grd_id_ori_sem = self.root + '_' + self.all_data['panoIds'][i] + '/' + self.all_data['panoIds'][i] + '_zoom_2_sem.jpg'
+            grd_id_align_sem = self.root + '_' + self.all_data['panoIds'][i] + '/' + self.all_data['panoIds'][i] + '_zoom_2_aligned_sem.jpg'
             if self.polar:
                 sat_id_ori = self.polar_root + 'polarmap/' + self.all_data['panoIds'][i] + '_satView_polish.jpg'
             else:

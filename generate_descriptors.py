@@ -6,6 +6,7 @@ from utils import rgan_wrapper_cvact, base_wrapper
 from utils.setup_helper import *
 from argparse import Namespace
 from helper import parser_cvact
+import pickle
 
 DESCRIPTORS_DIRECTORY = "/kaggle/working/descriptors/coming_dte"
 

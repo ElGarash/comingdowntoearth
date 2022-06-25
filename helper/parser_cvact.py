@@ -19,7 +19,7 @@ class Parser():
 
         #data parameters
         parser.add_argument('--data_root', type=str, default= '/kaggle/input/cvact-small/')
-        parser.add_argument('--polar_data_root', type=str, default= '/kaggle/working/cvact-small-prepared/aerials/')
+        parser.add_argument('--polar_data_root', type=str, default= '/kaggle/input/cvact-polar-images/cvact-small/')
         parser.add_argument('--data_list', type=str, default= '/kaggle/input/cvact-small/ACT_data.mat')
         parser.add_argument('--polar', default=True, action='store_true')
         parser.add_argument('--save_step', type=int, default=10)

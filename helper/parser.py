@@ -20,6 +20,7 @@ class Parser():
 
         #data parameters
         parser.add_argument('--data_root', type=str, default= '/kaggle/input/cvact-small/')
+        parser.add_argument('--polar_data_root', type=str, default= '/kaggle/working/cvact-small-prepared/aerials/')
         parser.add_argument('--train_csv', type=str, default='train-19zl.csv')
         parser.add_argument('--val_csv', type=str, default='val-19zl.csv')
         parser.add_argument('--polar', default=True, action='store_true')

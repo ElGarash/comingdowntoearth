@@ -3,8 +3,9 @@ from data.custom_transforms import *
 import torch
 
 class CVUSA(torch.utils.data.Dataset):
-    def __init__(self, root, csv_file, sate_size=(256, 256), pano_size=(616, 112), use_polar=False, name=None, transform_op=None):
+    def __init__(self, root, polar_root, csv_file, sate_size=(256, 256), pano_size=(616, 112), use_polar=False, name=None, transform_op=None):
         self.root = root
+        self.polar_root = polar_root
         self.name = name
         self.use_polar = use_polar
         self.sate_size = pano_size if use_polar else sate_size
@@ -44,7 +45,7 @@ class CVUSA(torch.utils.data.Dataset):
     def __getitem__(self, index):
         # Triplet construction
         pos_id = index
-        sate_path = os.path.join(self.root, self.sate_ims[pos_id])
+        sate_path = os.path.join(self.polar_root, self.sate_ims[pos_id])
         pano_path = os.path.join(self.root, self.pano_ims[pos_id])
         # Load and process images
         sate_im = self.load_im(sate_path, resize=self.sate_size)
@@ -64,6 +65,7 @@ class CVUSA(torch.utils.data.Dataset):
         fmt_str += 'Pair cvs path: {}\n'.format(self.csv_path)
         fmt_str += 'Number of data pairs: {}\n'.format(self.__len__())
         fmt_str += 'Dataset root : {}\n'.format(self.root)
+        fmt_str += 'Polar images root : {}\n'.format(self.polar_root)
         fmt_str += 'Image Transforms: {}\n'.format(self.transform_op.__repr__().replace('\n', '\n    '))
         return fmt_str
 

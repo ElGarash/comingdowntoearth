@@ -4,8 +4,9 @@ import numpy as np
 import cv2
 
 class CVACT(data.Dataset):
-    def __init__(self, root, all_data_list, use_polar=False, isTrain=False, transform_op=None):
+    def __init__(self, root, polar_root, all_data_list, use_polar=False, isTrain=False, transform_op=None):
         self.polar = use_polar
+        self.polar_root = polar_root
         self.train = isTrain
         self.transform_op = transform_op
         self.posDistThr = 25
@@ -26,7 +27,7 @@ class CVACT(data.Dataset):
             grd_id_align_sem = self.root + '_' + self.all_data['panoIds'][i] + '/' + self.all_data['panoIds'][
                 i] + '_zoom_2_aligned_sem.jpg'
             if self.polar:
-                sat_id_ori = self.root + 'polarmap/' + self.all_data['panoIds'][i] + '_satView_polish.jpg'
+                sat_id_ori = self.polar_root + 'polarmap/' + self.all_data['panoIds'][i] + '_satView_polish.jpg'
             else:
                 sat_id_ori = self.root + 'satview_polish/' + self.all_data['panoIds'][i] + '_satView_polish.jpg'
             sat_id_sem = self.root + '_' + self.all_data['panoIds'][i] + '/' + self.all_data['panoIds'][i] + '_satView_sem.jpg'

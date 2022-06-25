@@ -1,21 +1,16 @@
 from data.custom_transforms import *
-from data.utils import CVUSA
+from data.cvact_utils import CVACT
+import os
 from networks.c_gan import *
-from utils import rgan_wrapper
+from utils import rgan_wrapper_cvact, base_wrapper
 from utils.setup_helper import *
 from argparse import Namespace
-from helper import parser
-import os
-import pickle
+from helper import parser_cvact
 
 DESCRIPTORS_DIRECTORY = "/kaggle/working/descriptors/coming_dte"
 
 if __name__ == '__main__':
-    if os.path.exists(f"{DESCRIPTORS_DIRECTORY}/satellite_descriptors.pkl"):
-        print("Satellite descriptor already exists on the file system.")
-        exit(0)
-
-    parse = parser.Parser()
+    parse = parser_cvact.Parser()
     opt, log_file = parse.parse()
     opt.is_Train = True
     make_deterministic(opt.seed)
@@ -33,30 +28,27 @@ if __name__ == '__main__':
     print('Init {} as discriminator model'.format(opt.d_model))
 
     retrieval = define_R(ret_method=opt.r_model, polar=opt.polar, gpu_ids=opt.gpu_ids)
-    print('Init {} as retrieval model'.format(opt.r_model))
+    print('Init {} as discriminator model'.format(opt.r_model))
+
 
     # Initialize network wrapper
     if opt.resume:
         opt.rgan_checkpoint = os.path.join('/kaggle/working/models/coming_dte', 'rgan_best_ckpt.pth')
 
-    rgan_wrapper = rgan_wrapper.RGANWrapper(opt, log_file, generator, discriminator, retrieval)
+    rgan_wrapper = rgan_wrapper_cvact.RGANWrapper(opt, log_file, generator, discriminator, retrieval)
     # Configure data loader
-    val_dataset = CVUSA(root=opt.data_root, polar_root=opt.polar_data_root, csv_file=opt.val_csv, use_polar=opt.polar, name=opt.name,
-                        transform_op=ToTensor())
-    val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=opt.batch_size, shuffle=False, num_workers=0)
-
-    log_print('Load test dataset from {}: val_set={}'.format(opt.data_root, len(val_dataset)))
-    log_print('length of val loader: {:d}'.format(len(val_loader)))
+    val_dataset = CVACT(root= opt.data_root, polar_root=opt.polar_data_root, all_data_list = opt.data_list, use_polar=opt.polar, isTrain=False, transform_op=ToTensor())
+    val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=1, shuffle=False, num_workers=0)
 
     rgan_wrapper.generator.eval()
     rgan_wrapper.retrieval.eval()
     fake_street_batches_v = []
     street_batches_v = []
+    utm_v = []
     item_ids = []
-
-    for i, data in enumerate(val_loader):
+    for i, (data, utm)in enumerate(val_loader):
         print (i)
-        rgan_wrapper.set_input(data)
+        rgan_wrapper.set_input_cvact(data, utm)
         rgan_wrapper.eval_model()
         fake_street_batches_v.append(rgan_wrapper.fake_street_out_val.cpu().data)
         street_batches_v.append(rgan_wrapper.street_out_val.cpu().data)

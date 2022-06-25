@@ -1,9 +1,11 @@
-# Code source: https://github.com/shiyujiao/cross_view_localization_SAFA/blob/master/script/data_preparation.py
 import numpy as np
-import imageio
+from cv2 import imread, imwrite
 import os
-from PIL import Image
-from matplotlib import pyplot
+
+def create_directory(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
 def sample_within_bounds(signal, x, y, bounds):
     xmin, xmax, ymin, ymax = bounds
     idxs = (xmin <= x) & (x < xmax) & (ymin <= y) & (y < ymax)
@@ -36,30 +38,6 @@ def sample_bilinear(signal, rx, ry):
     return (iy1 - ry)[..., na] * fx1 + (ry - iy0)[..., na] * fx2
 
 
-############################ Apply Polar Transform to Aerial Images in CVUSA Dataset ############################
-S = 750
-height = 224 #112
-width = 1232 #616
-
-i = np.arange(0, height)
-j = np.arange(0, width)
-jj, ii = np.meshgrid(j, i)
-
-y = S / 2. - S / 2. / height * (height - 1 - ii) * np.sin(2 * np.pi * jj / width)
-x = S / 2. + S / 2. / height * (height - 1 - ii) * np.cos(2 * np.pi * jj / width)
-
-input_dir = './placeholder_bingmap/'
-output_dir = './placeholder_polarmap/'
-
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
-images = os.listdir(input_dir)
-
-for i, img in enumerate(images):
-    signal = imageio.imread(input_dir + img)
-    image = sample_bilinear(signal, x, y).astype(np.uint8)
-    imageio.imwrite(output_dir + img.replace('jpg', 'png'), image)
-
 ############################ Apply Polar Transform to Aerial Images in CVACT Dataset #############################
 S = 1200
 height = 112
@@ -72,31 +50,30 @@ jj, ii = np.meshgrid(j, i)
 y = S / 2. - S / 2. / height * (height - 1 - ii) * np.sin(2 * np.pi * jj / width)
 x = S / 2. + S / 2. / height * (height - 1 - ii) * np.cos(2 * np.pi * jj / width)
 
-input_dir = './placeholder_satview_polish/'
-output_dir = './placeholder_polarmap/'
+input_dir = '/kaggle/input/cvact-small/satview_polish/satview_polish/'
+output_dir = '/kaggle/working/cvact-small/polarmap/'
 
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
+create_directory(output_dir)
 images = os.listdir(input_dir)
 
 for i, img in enumerate(images):
-    signal = imageio.imread(input_dir + img)
+    signal = imread(input_dir + img)
     image = sample_bilinear(signal, x, y)
-    imageio.imsave(output_dir + img, image)
+    imwrite(output_dir + img, image)
 
 ############################ Prepare Street View Images in CVACT to Accelerate Training Time #############################
 import cv2
-input_dir = './placeholder_streetview/'
-output_dir = './placeholder_streetview_polish/'
+input_dir = '/kaggle/input/cvact-small/streetview/streetview/'
+output_dir = '/kaggle/working/cvact-small/streetview_polish/'
 
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
+create_directory(output_dir)
 
 images = os.listdir(input_dir)
+print(images[:10])
 
 for i, img in enumerate(images):
-    signal = imageio.imread(input_dir + img)
+    signal = imread(input_dir + img)
     start = int(832 / 4)
     image = signal[start: start + int(832 / 2), :, :]
     image = cv2.resize(image, (616, 112), interpolation=cv2.INTER_AREA)
-    imageio.imsave(output_dir + img, image)
+    imwrite(output_dir + img, image)

@@ -18,8 +18,9 @@ class Parser():
         parser.add_argument('--start_epoch', type=int, default=0)
 
         #data parameters
-        parser.add_argument('--data_root', type=str, default= './placeholder_data_path')
-        parser.add_argument('--data_list', type=str, default= './placeholder_data_list')
+        parser.add_argument('--data_root', type=str, default= '/kaggle/input/cvact-small/')
+        parser.add_argument('--polar_data_root', type=str, default= '/kaggle/working/cvact-small-prepared/aerials/')
+        parser.add_argument('--data_list', type=str, default= '/kaggle/working/data-list')
         parser.add_argument('--polar', default=True, action='store_true')
         parser.add_argument('--save_step', type=int, default=10)
         parser.add_argument('--rgan_checkpoint', type=str, default=None)

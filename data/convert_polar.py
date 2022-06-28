@@ -40,8 +40,8 @@ def sample_bilinear(signal, rx, ry):
 
 ############################ Apply Polar Transform to Aerial Images in CVACT Dataset #############################
 S = 1200
-height = 112
-width = 616
+height = 128
+width = 512
 
 i = np.arange(0, height)
 j = np.arange(0, width)
@@ -75,5 +75,5 @@ for i, img in enumerate(images):
     signal = imread(input_dir + img)
     start = int(832 / 4)
     image = signal[start: start + int(832 / 2), :, :]
-    image = cv2.resize(image, (616, 112), interpolation=cv2.INTER_AREA)
+    image = cv2.resize(image, (512, 128), interpolation=cv2.INTER_AREA)
     imwrite(output_dir + img, image)
